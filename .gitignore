@@ -11,4 +11,3 @@ wheels/
 
 # Other
 .env
-src/alembic/versions/
