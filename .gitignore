@@ -11,3 +11,5 @@ wheels/
 
 # Other
 .env
+src/alembic/versions/*
+!src/alembic/versions/__init__.py
