@@ -1,7 +1,11 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
+generate-migrations:
+	uv run alembic -c src/alembic.ini revision --autogenerate -m "message"
 
+migrate:
+	uv run alembic -c src/alembic.ini upgrade head
 
 
 #######################################################
@@ -13,4 +17,4 @@ app-build:
 
 app-run:
 	docker run --name $(APP_CONTAINER_NAME) --rm --env-file .env \
-		-p 8000:8000 -v $(shell pwd)/src:/root/project/src $(APP_IMAGE_NAME)
+		-p 8000:8000 -v .:/root/project $(APP_IMAGE_NAME)
