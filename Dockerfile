@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/root/project/src
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git make iputils-ping && rm -rf /var/lib/apt/lists/*
+    make && rm -rf /var/lib/apt/lists/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -32,7 +32,8 @@ CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "800
 # ---------------- Development Stage ----------------
 FROM base AS dev
 
-RUN curl -fsSL https://starship.rs/install.sh | sh -s -- -y
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git iputils-ping openssh-client && rm -rf /var/lib/apt/lists/*
 
 # Install dev deps on top of base deps
 RUN uv sync --only-group dev
