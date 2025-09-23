@@ -7,6 +7,8 @@ ENV PYTHONUNBUFFERED=1 \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     UV_LINK_MODE=copy \
+    UV_PROJECT_ENVIRONMENT=/opt/venv \
+    PATH=/opt/venv/bin:$PATH \
     PYTHONPATH=/root/project/src
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -35,7 +37,6 @@ FROM base AS dev
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git iputils-ping openssh-client && rm -rf /var/lib/apt/lists/*
 
-# Install dev deps on top of base deps
 RUN uv sync --only-group dev
 
 EXPOSE 8000
