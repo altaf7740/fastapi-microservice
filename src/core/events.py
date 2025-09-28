@@ -3,7 +3,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from .config.database import Base, engine
-from .config.redis import init_redis, close_redis
+from .config.redis import close_redis, init_redis
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

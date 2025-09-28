@@ -1,12 +1,13 @@
 from fastapi import FastAPI
+from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from .app.routes import router
 from .core.config.settings import settings
 from .core.events import lifespan
 from .core.middlewares import register_middlewares
-from .app.routes import router
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, default_response_class=ORJSONResponse)
 
 register_middlewares(app)
 

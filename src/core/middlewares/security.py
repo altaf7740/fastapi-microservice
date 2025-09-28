@@ -13,7 +13,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
         content_security_policy = (
             "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;"
-            if settings.ENVIRONMENT.lower() in ["dev", "development"]
+            if settings.ENV.lower() in ["dev", "development"]
             else "default-src 'self'"
         )
 

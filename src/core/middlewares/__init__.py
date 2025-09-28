@@ -5,6 +5,8 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from ..config.settings import settings
 from .logging import RequestIDAndLoggingMiddleware
+from .security import SecurityHeadersMiddleware
+from .timeout import TimeoutMiddleware
 
 
 def register_middlewares(app: FastAPI) -> None:
@@ -16,6 +18,9 @@ def register_middlewares(app: FastAPI) -> None:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    app.add_middleware(SecurityHeadersMiddleware)
+    app.add_middleware(TimeoutMiddleware, timeout=settings.APP_RESPONSE_TIMEOUT)
+    app.add_middleware(GZipMiddleware, minimum_size=1000)
     app.add_middleware(RequestIDAndLoggingMiddleware)
 
 

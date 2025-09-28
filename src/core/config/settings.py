@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     # NETWORK
     APP_ALLOWED_HOSTS: list[str]
     APP_CORS_ORIGINS: list[str]
+    APP_RESPONSE_TIMEOUT: int = 30
 
     # STATIC FILES
     STATIC_URL: str = "/static/"

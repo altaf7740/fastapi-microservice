@@ -1,3 +1,4 @@
+import json
 import sys
 
 from loguru import logger
@@ -22,9 +23,12 @@ def _json_sink(message: Message) -> None:
     }
     if "request_id" in extra:
         log_obj["request_id"] = extra["request_id"]
+    print(json.dumps(log_obj), file=sys.stderr)
 
 
-if settings.ENVIRONMENT.upper().startswith("DEV"):
+
+if settings.ENV.upper().startswith("DEV"):
+    print("going with dev logging")
     logger.add(
         sys.stderr,
         format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level:<8}</level> | "
@@ -33,4 +37,5 @@ if settings.ENVIRONMENT.upper().startswith("DEV"):
         level=settings.APP_LOG_LEVEL.upper(),
     )
 else:
+    print("going with production logging")
     logger.add(_json_sink, level=settings.APP_LOG_LEVEL.upper())  # type: ignore
