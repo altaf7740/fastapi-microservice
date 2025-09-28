@@ -12,6 +12,7 @@
     ".pre-commit-config.yaml": true,
     ".dockerignore": true,
     ".vscode": true,
-    "uv.lock": true
+    "uv.lock": true,
+    ".gitattributes": true
   }
 }
