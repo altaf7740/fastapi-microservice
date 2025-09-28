@@ -18,16 +18,23 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /root/project
 
-COPY src src
 COPY pyproject.toml uv.lock ./
-RUN uv sync --no-reinstall
+RUN uv sync --no-dev --no-reinstall
 
 
 # ---------------- Production Stage ----------------
-FROM base AS prod
+FROM python:3.13-slim AS prod
+
+ENV PATH=/opt/venv/bin:$PATH \
+    PYTHONPATH=/root/project/src
+
+WORKDIR /root/project
+
+COPY --from=base /opt/venv /opt/venv
+COPY src src
 
 EXPOSE 8000
-CMD ["uv", "run", "gunicorn", "src.main:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "--workers", "4", "--max-requests", "100", "--preload"]
+CMD ["gunicorn", "src.main:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "--workers", "4", "--max-requests", "100", "--preload"]
 
 
 # ---------------- Development Stage ----------------
