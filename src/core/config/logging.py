@@ -26,7 +26,6 @@ def _json_sink(message: Message) -> None:
     print(json.dumps(log_obj), file=sys.stderr)
 
 
-
 if settings.ENV.upper().startswith("DEV"):
     print("going with dev logging")
     logger.add(
