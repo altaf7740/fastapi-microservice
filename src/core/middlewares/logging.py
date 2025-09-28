@@ -22,7 +22,7 @@ class RequestIDAndLoggingMiddleware(BaseHTTPMiddleware):
         try:
             response = await call_next(request)
         except Exception as e:
-            log.error(f"Unhandled error: {str(e)}")
+            log.exception(f"Unhandled error: {str(e)}")
             return JSONResponse({"detail": "Internal Server Error", "request_id": request_id}, status_code=500)
         process_time = round((time.time() - start_time) * 1000, 2)
         log.info(f"Completed in {process_time}ms with status {response.status_code}")

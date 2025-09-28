@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     STATIC_DIR: Path = BASE_DIR / "static"
     DOCS_DIR: Path = STATIC_DIR / "docs"
 
+    # Tracebacks and Logs
+    APP_TRACEBACK_DEPTH: int
+
     model_config = {"extra": "allow"}
 
 
