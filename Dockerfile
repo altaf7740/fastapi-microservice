@@ -26,7 +26,9 @@ RUN uv sync --no-dev --no-reinstall
 FROM python:3.13-slim AS prod
 
 ENV PATH=/opt/venv/bin:$PATH \
-    PYTHONPATH=/root/project/src
+    PYTHONPATH=/root/project/src \
+    GUNICORN_WORKERS=4 \
+    GUNICORN_MAX_REQUESTS=100
 
 WORKDIR /root/project
 
@@ -34,7 +36,7 @@ COPY --from=base /opt/venv /opt/venv
 COPY src src
 
 EXPOSE 8000
-CMD ["gunicorn", "src.main:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "--workers", "4", "--max-requests", "100", "--preload"]
+CMD ["sh", "-c", "gunicorn src.main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --workers ${GUNICORN_WORKERS} --max-requests ${GUNICORN_MAX_REQUESTS} --preload"]
 
 
 # ---------------- Development Stage ----------------
