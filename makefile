@@ -9,7 +9,7 @@ migrate:
 
 bypass-precommit:
 	@echo "Skipping pre-commit hook"
-	git commit --no-verify
+	@git commit --no-verify -m "$(msg)"
 
 
 #######################################################
